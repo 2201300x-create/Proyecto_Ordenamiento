@@ -32,7 +32,7 @@ void generar_casi(int arr[], int n){
 	// Se intercambia aproximadamente el 5% de los elementos
 	int num_swaps = n * 0.05;
 
-	if (num_swaps == 0) num_swaps = 1 // Al menos 1 swap si el arreglo es muy pequeño
+	if (num_swaps == 0) num_swaps = 1; // Al menos 1 swap si el arreglo es muy pequeño
 
 		for (int i = 0; i < num_swaps; i++) {
 			int idx1 = rand() % n;
@@ -56,7 +56,7 @@ void generar_duplicados(int arr[], int n){
 // 6. Imprimir lo que se genero
 void imprimir_arreglo(int arr[], int n) {
 	for (int i = 0; i < n; i++) {
-		printf("%d ", arr[]);
+		printf("%d ", arr[i]);
 	}
 	printf("|n");
 }

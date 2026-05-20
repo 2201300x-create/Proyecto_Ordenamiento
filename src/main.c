@@ -6,18 +6,18 @@
 #include "algoritmos.h"
 
 // Definir los tamaños que se propuso en el documento del proyecto
-int size[] = { 100, 200, 300, 400, 500, 1000, 2500, 5000, 7000};
+int sizes[] = { 100, 200, 300, 400, 500, 1000, 2500, 5000, 7000};
 int num_sizes = 9;
 
 // Nombres para las celdas del CSV
 const char* dist_names[] = {"uniform", "ordenado", "reverso", "casi", "duplicados"};
-const char* algo_name[] = {"Insertion", "Merge", "Counting", "Introsort"};
+const char* algo_names[] = {"Insertion", "Merge", "Counting", "Introsort"};
 // Propiedad para la estabilidad de cada uno
 const char* estable[] = {"SI", "SI", "SI", "NO"};
 
 int main() {
 	// Abrir/Crear el archivo CSV
-	FILE *fp = fopen("resultado.csv", "w");
+	FILE *fp = fopen("resultados.csv", "w");
 	if (fp == NULL) {
 		printf("ERROR: No se pudo crear el archivo CSV.\n");
 		return 1;
@@ -45,7 +45,7 @@ int main() {
 						generar_uniform(base_arr, n);
 						break;
 					case 1:
-						generar_ordenamado(base_arr, n);
+						generar_ordenado(base_arr, n);
 						break;
 					case 2:
 						generar_reverso(base_arr, n);
@@ -54,7 +54,7 @@ int main() {
 						generar_casi(base_arr, n);
 						break;
 					case 4:
-						generar_duplicado(base_arr, n);
+						generar_duplicados(base_arr, n);
 						break;
 				}
 
@@ -75,7 +75,7 @@ int main() {
 							insertion_sort(test_arr, n, &comps, &swaps);
 							break;
 						case 1:
-							merge_sort(test_arr, 0, n, -1, &comps, &swaps);
+							merge_sort(test_arr, 0, n - 1, &comps, &swaps);
 							break;
 						case 2:
 							counting_sort(test_arr, n, &comps, &swaps);
@@ -92,15 +92,15 @@ int main() {
 					// Escribir en el CSV
 					if (a == 2) {
 						// Counting Sort no usa comparaciones
-						fprintf(fp, "%s,%d,%s,%d,%.4f,NA,%lld,%s\n", algo_names[a], n, dist_names[d], rep, cpu_time_used, swaps, estable[a]);
+						fprintf(fp, "%s,%d,%s,%d,%.4f,NA,%ld,%s\n", algo_names[a], n, dist_names[d], rep, cpu_time_used, (long)swaps, estable[a]);
 					} else {
-						fprintf(fp, "%s,%d,%s,%d,%.4f,%lld,%lld,%s\n", algo_names[a], n, dist_names[d], rep, cpu_time_used, comps, swaps, estable[a]);
+						fprintf(fp, "%s,%d,%s,%d,%.4f,%ld,%ld,%s\n", algo_names[a], n, dist_names[d], rep, cpu_time_used, (long)comps, (long)swaps, estable[a]);
 					}					
 				}
 			}
 		}
-		fre(base_arr);
-		fre(test_arr);
+		free(base_arr);
+		free(test_arr);
 		printf("Completado tamaño: %d\n", n);
 	}
 	fclose(fp);

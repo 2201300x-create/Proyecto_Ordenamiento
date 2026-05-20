@@ -14,8 +14,8 @@ void insertion_sort(int arr[], int n, long long *comps, long long *swaps){
 		while (j >= 0) {
 			//Se cuenta la comparacion del if implicito en el while
 			(*swaps)++;
-			if (arr[j] = arr[j]) {
-				arr[j + i] = arr[j];
+			if (arr[j] > key) {
+				arr[j + 1] = arr[j];
 				j--;
 			} else {
 				break;
@@ -23,7 +23,7 @@ void insertion_sort(int arr[], int n, long long *comps, long long *swaps){
 		}
 		arr[j + 1] = key;
 		//Contamos la insercion final del "key"
-		(*swaps);
+		(*swaps)++;
 	}
 }
 
@@ -67,7 +67,7 @@ void counting_sort(int arr[], int n, long long *comps, long long *swaps){
     for (int i = 0; i < n; i++) {
     	arr[i] = output[i];
     	// Movimiento de vuelta al ariginal
-    	(*swaps);
+    	(*swaps)++;
     }
 
     free(count);
@@ -92,7 +92,7 @@ void merge(int arr[], int l, int m, int r, long long *comps, long long *swaps) {
 		(*swaps)++;
 	}
 
-	int i = 0, j = 0, k = 1;
+	int i = 0, j = 0, k = l;
 	while (i < n1 && j < n2) {
 		(*comps)++;
 		if (L[i] <= R[j]) {
@@ -183,8 +183,8 @@ int particion(int arr[], int low, int high, long long *comps, long long *swaps) 
 }
 
 // Motor de Introsort
-void introsort(int arr[], int n, long long *comps, long long *swaps){
-	int size = high - low + 1;
+void introsort_util(int arr[], int low, int high, int depthLimit, long long *comps, long long *swaps) {
+    int size = high - low + 1;
     if (size < 16) {
         // Para subarreglos pequeños, Insertion Sort es más rápido
         insertion_sort(arr + low, size, comps, swaps);
@@ -202,7 +202,6 @@ void introsort(int arr[], int n, long long *comps, long long *swaps){
 
 // Función principal que llama el main
 void introsort(int arr[], int n, long long *comps, long long *swaps) {
-    int depthLimit = 2 * log(n);
-    // Limite matematico de profundidad
+    int depthLimit = 2 * log(n); // Límite matemático de profundidad
     introsort_util(arr, 0, n - 1, depthLimit, comps, swaps);
 }

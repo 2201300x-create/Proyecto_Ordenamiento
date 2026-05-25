@@ -1,0 +1,9 @@
+# Archivos compilados
+*.o
+benchmark
+
+# Resultados generados
+resultados.csv
+
+# Gráficas generadas
+*.png

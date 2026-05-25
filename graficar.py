@@ -1,40 +1,34 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Leer CSV
 df = pd.read_csv("resultados.csv")
 
-# Ver columnas detectadas
-print(df.columns)
+# Promediar las 3 repeticiones
+promedio = df.groupby(["algoritmo", "tamaño", "distribucion"])["time_ms"].mean().reset_index()
 
-# Obtener algoritmos únicos
-algoritmos = df["algoritmo"].unique()
+distribuciones = promedio["distribucion"].unique()
+algoritmos = promedio["algoritmo"].unique()
 
-# Crear gráfica
-plt.figure(figsize=(10,6))
+fig, axes = plt.subplots(2, 3, figsize=(16, 9), sharey=False)
+axes = axes.flatten()
 
-for alg in algoritmos:
+for i, dist in enumerate(distribuciones):
+    ax = axes[i]
+    sub_dist = promedio[promedio["distribucion"] == dist]
+    for alg in algoritmos:
+        sub = sub_dist[sub_dist["algoritmo"] == alg]
+        ax.plot(sub["tamaño"], sub["time_ms"], marker='o', label=alg)
+    ax.set_title(f"Distribución: {dist}")
+    ax.set_xlabel("Tamaño (n)")
+    ax.set_ylabel("Tiempo (ms)")
+    ax.legend(fontsize=7)
+    ax.grid(True)
 
-    sub = df[df["algoritmo"] == alg]
+# Ocultar el subplot sobrante si hay 5 distribuciones
+for j in range(len(distribuciones), len(axes)):
+    axes[j].set_visible(False)
 
-    plt.plot(
-        sub["tamaño"],
-        sub["time_ms"],
-        marker='o',
-        label=alg
-    )
-
-# Etiquetas
-plt.xlabel("Tamaño del arreglo (n)")
-plt.ylabel("Tiempo (ms)")
-plt.title("Comparación de algoritmos de ordenamiento")
-
-# Extras
-plt.legend()
-plt.grid(True)
-
-# Guardar imagen
+plt.suptitle("Comparación de algoritmos por distribución", fontsize=13)
+plt.tight_layout()
 plt.savefig("grafica_tiempos.png")
-
-# Mostrar gráfica
 plt.show()

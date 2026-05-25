@@ -6,8 +6,8 @@
 #include "algoritmos.h"
 
 // Definir los tamaños que se propuso en el documento del proyecto
-int sizes[] = { 100, 200, 300, 400, 500, 1000, 2500, 5000, 7000};
-int num_sizes = 9;
+int sizes[] = { 100, 200, 300, 400, 500, 1000, 2500, 5000, 7000, 7500 };
+int num_sizes = 10;
 
 // Nombres para las celdas del CSV
 const char* dist_names[] = {"uniform", "ordenado", "reverso", "casi", "duplicados"};
